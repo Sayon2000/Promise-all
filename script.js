@@ -26,37 +26,31 @@ function deletePost(){
     })
 }
 
-Promise.all([createPost("first title") , updateLastUserActivityTime()]).then((data)=>{
-    // posts = [...posts,...data[0]]
+function printPosts(arr){
     posts.forEach(elem =>{
         console.log(elem)
     })
-    console.log(data[1])
-    return data
-}).
-then((elem)=>{
-    return new Promise((resolve,reject)=>{
-        Promise.all([createPost("second title") , updateLastUserActivityTime()]).then((data)=>{
-            // posts = [...posts,...data[0]]
-            posts.forEach(elem =>{
-                console.log(elem)
-            })
-            console.log(data[1])
-            resolve()
-        })
-    })
+    if(arr)
+        console.log(arr[1])
+}
 
-})
-.then((data)=>{
+async function interaction(){
 
 
-    return deletePost()
+
+let arr = await Promise.all([createPost("first title") , updateLastUserActivityTime()])
+printPosts(arr)
+
+
+
+ arr =await Promise.all([createPost("second title") , updateLastUserActivityTime()])
+printPosts(arr)
+
+let del = await deletePost()
+printPosts()
     
-})
-.then(()=>{
-    posts.forEach(elem =>{
-        console.log(elem)
-    })
-})
 
 
+}
+
+interaction()
